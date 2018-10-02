@@ -21,7 +21,7 @@ namespace burgershack.Repositories
         //GET ALL BURGERS
         public IEnumerable<Burger> GetAll()
         {
-            return _db.Query<Burger>("SELECT * FROM burgers;");
+            return _db.Query<Burger>("SELECT * FROM burger;");
         }
 
         //GET BURGER BY ID
