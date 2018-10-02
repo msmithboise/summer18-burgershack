@@ -34,6 +34,8 @@ namespace burgershack
 
             services.AddTransient<BurgersRepository>();
             services.AddTransient<SmoothiesRepository>();
+            services.AddTransient<FrenchfriesRepository>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
