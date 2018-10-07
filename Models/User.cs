@@ -65,7 +65,7 @@ namespace burgershack.Models
             // this is saying req.session.uid = id
             var claims = new List<Claim>{
                 new Claim(ClaimTypes.Email, Email),
-                new Claim(ClaimTypes.NameIdentifier, Id)
+                new Claim(ClaimTypes.Name, Id)
             };
             var userIdentity = new ClaimsIdentity(claims, "login");
             _principal = new ClaimsPrincipal(userIdentity);

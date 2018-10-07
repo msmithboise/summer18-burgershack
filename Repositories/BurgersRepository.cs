@@ -21,7 +21,7 @@ namespace burgershack.Repositories
         //GET ALL BURGERS
         public IEnumerable<Burger> GetAll()
         {
-            return _db.Query<Burger>("SELECT * FROM burger;");
+            return _db.Query<Burger>("SELECT * FROM burgers;");
         }
 
         //GET BURGER BY ID
@@ -59,6 +59,21 @@ namespace burgershack.Repositories
             _db.Execute("DELETE FROM burgers WHERE id = @Id", burger);
             return burger;
         }
+
+
+
+        public IEnumerable<Burger> GetBurgersByUserId(string id)
+        {
+            return _db.Query<Burger>(@"
+        SELECT * FROM userburgers
+        INNER JOIN burgers ON burgers.id = userburgers.burgerId
+        WHERE userId = @id
+      ", new { id });
+        }
+
+        //         SELECT* FROM vaultkeeps vk
+        //   INNER JOIN keeps k ON k.id = vk.keepId
+        //   WHERE (vaultId = 2)
 
         public int Delete(int id)
         {

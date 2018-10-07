@@ -9,22 +9,20 @@ namespace burgershack.Repositories
 {
     public class UserRepository
     {
+
         IDbConnection _db;
-        //Login  C
 
-
-        //Register 
-
+        //REGISTER
         public User Register(UserRegistration creds)
         {
-            // generate the user id
-            // HASH THE PASSWORD
+            //generate the user id
+            //HASH THE PASSWORD
             string id = Guid.NewGuid().ToString();
             string hash = BCrypt.Net.BCrypt.HashPassword(creds.Password);
             int success = _db.Execute(@"
-           INSERT INTO users (id, username, email, hash);
-           VALUES (@id, @username, @email, @hash)
-           ", new
+        INSERT INTO users (id, username, email, hash)
+        VALUES (@id, @username, @email, @hash);
+      ", new
             {
                 id,
                 username = creds.Username,
@@ -41,35 +39,46 @@ namespace burgershack.Repositories
                 Hash = null,
                 Id = id
             };
-            public User(IDbConnection db)
-            {
-                _db = db;
-            }
-
-
-
-
-
-
         }
-        // Update U
 
+        //LOGIN 
         public User Login(UserLogin creds)
         {
             User user = _db.Query<User>(@"
-               SELECT * FROM users WHERE email = @Email 
-               ", creds).FirstOrDefault();
-
+      SELECT * FROM users WHERE email = @Email
+      ", creds).FirstOrDefault();
             if (user == null) { return null; }
-            bool validPass = BCrypt.Net.BCrypt.Verify(creds.password, user.Hash);
+            bool validPass = BCrypt.Net.BCrypt.Verify(creds.Password, user.Hash);
             if (!validPass) { return null; }
             user.Hash = null;
             return user;
+        }
 
+        internal User GetUserById(string id)
+        {
+            var user = _db.Query<User>(@"
+      SELECT * FROM users WHERE id = @id
+      ", new { id }).FirstOrDefault();
+            if (user != null)
+            {
+                user.Hash = null;
+            }
+            return user;
         }
 
 
-        //  Change Password U
+        //Update   u
+        //CHANGE PASS u
+        //DELETE   D
 
-        // Delete D
+
+
+        public UserRepository(IDbConnection db)
+        {
+            _db = db;
+        }
+
+
+
     }
+}

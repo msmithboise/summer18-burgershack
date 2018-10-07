@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 -- CREATE TABLE frenchfries (
 --   id int NOT NULL AUTO_INCREMENT,
 --   name VARCHAR(255) NOT NULL,
@@ -6,8 +14,8 @@
 --   PRIMARY KEY(id)
 -- );
 
-INSERT INTO frenchfries (name, description, price) 
-VALUES ("Animal Style Fries", "Fries smothered by all things unhealthy!", 11.99);
+-- INSERT INTO frenchfries (name, description, price) 
+-- VALUES ("Animal Style Fries", "Fries smothered by all things unhealthy!", 11.99);
 
 -- SELECT * FROM frenchfries;
 
@@ -21,4 +29,36 @@ VALUES ("Animal Style Fries", "Fries smothered by all things unhealthy!", 11.99)
 
 -- DELETE FROM frenchfries WHERE id = 1;
 
+-- User Table Creation
 
+CREATE TABLE users(
+    id VARCHAR(255) NOT NULL,
+    username VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    has VARCHAR(255),
+    PRIMARY KEY (id),
+    UNIQUE KEY email (email)
+);
+
+-- favorites table
+
+CREATE TABLE userburgers(
+    id int NOT NULL AUTO_INCREMENT,
+    burgerId int NOT NULL,
+    userId VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (id)
+    INDEX (userId)
+
+FOREIGN KEY(userId)
+REFERENCES user(id)
+ON DELETE CASCADE,
+-- if userId is deleted, remove the references
+
+FOREIGN KEY(burgerId)
+REFERENCES (burgerId)
+ON DELETE CASCADE,
+
+
+
+);
